@@ -1,0 +1,10 @@
+# Compiled artifacts
+super
+*.o
+src/*.o
+
+# Generated files
+super_out.c
+super_out
+my_lib.h
+my_lib.c

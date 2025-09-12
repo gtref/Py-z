@@ -1,0 +1,13 @@
+fn main() -> int {
+    let i: int = 0;
+    let keep_going: bool = true;
+
+    while keep_going {
+        print(i);
+        i = i + 1;
+        if i > 4 {
+            keep_going = false;
+        }
+    }
+    return 0;
+}

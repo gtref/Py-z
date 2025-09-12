@@ -1,0 +1,13 @@
+import "my_lib_slang";
+
+vibe_check main() -> int {
+    bet p1: Player = new_player("pog-champ", 9001);
+
+    sus p1.score > 9000 {
+        spill("It's over 9000!");
+    } nah {
+        spill("mid");
+    }
+
+    yeet 0;
+}

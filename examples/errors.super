@@ -1,0 +1,7 @@
+fn main() -> int {
+    let x: int = 10;
+    let y: string = "hello" // Missing semicolon
+    print(x; // Missing parenthesis
+    if x > { } // Missing condition
+    return 0;
+}

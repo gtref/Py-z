@@ -1,0 +1,9 @@
+struct Player {
+    name: string;
+    score: int;
+}
+
+fn new_player(name: string, score: int) -> Player {
+    let p: Player = Player{name: name, score: score};
+    return p;
+}

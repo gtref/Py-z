@@ -1,0 +1,9 @@
+/*
+  This is a test of arrays and block comments.
+*/
+fn main() -> int {
+    let my_array: [int] = [10, 20, 30];
+    let index: int = 1;
+    print(my_array[index]); // Should print 20
+    return 0;
+}

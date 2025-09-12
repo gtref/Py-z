@@ -1,0 +1,9 @@
+import "std/math";
+
+fn main() -> int {
+    let x: float = 1.1;
+    let y: float = 2.2;
+    let z: float = add_floats(x, y);
+    print(z);
+    return 0;
+}
