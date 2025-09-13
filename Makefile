@@ -25,6 +25,10 @@ install: all
 uninstall:
 	rm -f $(BINDIR)/$(TARGET)
 
+test: all
+	chmod +x run_tests.sh
+	./run_tests.sh
+
 clean:
 	rm -f $(TARGET) $(OBJS)
 	rm -f super_out.c super_out

@@ -17,11 +17,11 @@ When slang mode is active, the lexer recognizes the following keywords:
 
 | Standard | Slang |
 |---|---|
-| `fn` | `vibe_check` |
+| `fn` | `vibecheck` |
 | `let` | `bet` |
 | `if` | `sus` |
 | `else` | `nah` |
-| `while` | `on_repeat` |
+| `while` | `onrepeat` |
 | `print` | `spill` |
 | `return`| `yeet` |
 | `true` | `fax` |
@@ -43,7 +43,7 @@ Here is a full example of a program written in Super's slang mode:
 ```super
 # To run this file: super --slang my_file.super
 
-vibe_check main() -> int {
+vibecheck main() -> int {
     bet is_based: bool = fax;
 
     sus is_based {

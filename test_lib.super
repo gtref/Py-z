@@ -1,0 +1,9 @@
+struct Vec2 {
+    x: float;
+    y: float;
+}
+
+fn new_vec(x: float, y: float) -> Vec2 {
+    let v: Vec2 = Vec2{x: x, y: y};
+    return v;
+}

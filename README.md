@@ -1,50 +1,38 @@
-# Super
+# Super (v1.0-stable)
 
-**Super** is an educational, statically-typed, compiled programming language that transpiles to C. Its syntax is inspired by modern languages like Rust and Go.
+**Super** is an educational, statically-typed, compiled programming language that transpiles to C. This version represents a stable, working core of the language.
 
-## Philosophy
+## Core Language Features
 
-*   **Simplicity & Power:** Aims for a clean, modern syntax without sacrificing expressive power.
-*   **Education:** Serves as a clear example of how a compiler, build system, and CLI tool are built.
+This version of Super supports the following features:
 
-## Installation
+*   **Functions:** Only a `fn main() -> int` function is supported as the entry point.
+*   **Variables:** `let` declarations for `int` and `float` types.
+*   **Printing:** A `print()` function that can print an integer or a float.
+*   **Arithmetic:** Basic arithmetic operators (`+`, `-`, `*`, `/`).
+*   **Comments:** Single-line (`//`) and multi-line (`/* ... */`) comments.
 
-To compile the `super` CLI, simply run `make`:
+### Example
 
-```bash
-make
+```super
+fn main() -> int {
+    let x: float = 10.5;
+    let y: int = 20;
+
+    // Note: Type checking is not yet fully implemented,
+    // so mixed-type arithmetic may not work as expected.
+    let z: float = x + 2.0;
+
+    print(z);
+    print(y);
+
+    return 0;
+}
 ```
 
-To install the `super` executable to a common system path (e.g., `/usr/local/bin`), run:
+## CLI Usage
 
+To compile and run a Super program:
 ```bash
-sudo make install
+./super <filename.super>
 ```
-
-You can then uninstall it with:
-```bash
-sudo make uninstall
-```
-
-## Language Syntax
-
-The `super` CLI transpiles a `.super` file into C code, which is then compiled with `gcc`.
-
-(See previous documentation for full syntax details on types, comments, variables, functions, structs, arrays, control flow, and operators.)
-
-## "Gen Alpha Slang" Mode
-
-Super includes a special "slang mode" which provides an alternative, more "online" set of keywords and commands.
-
-For full details, see the [Slang Mode Documentation](SLANG.md).
-
-## CLI Commands
-
-*   `super <file>`: Transpile and run a program.
-*   `super init <project>`: Create a new project.
-*   `super build-lib <file>`: Build a library.
-*   `super check <file>`: Check the syntax of a file.
-*   `super repl`: Start the interactive REPL.
-*   `super --help`: Show help.
-*   `super --show-tokens <file>`: Display tokens from a file.
-*   `super --slang ...`: Use slang mode for any command.

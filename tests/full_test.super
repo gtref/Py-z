@@ -1,0 +1,41 @@
+/*
+  This is a comprehensive test for the Super language.
+  It tests all major features.
+*/
+
+// Note: A real import system would be more robust.
+// For now, we assume the library is already built.
+import "my_math";
+
+struct Point {
+    x: float;
+    y: float;
+}
+
+fn new_point(x: float, y: float) -> Point {
+    let p: Point = Point{x: x, y: y};
+    return p;
+}
+
+fn main() -> int {
+    // Test library import and function call
+    let result: float = add(5.0, 3.0);
+    print(result); // Expected: 8.0
+
+    // Test struct creation and member access
+    let p1: Point = new_point(1.0, 2.0);
+    print(p1.x); // Expected: 1.0
+
+    // Test while loop and bools
+    let i: int = 0;
+    let continue: bool = true;
+    while continue {
+        i = i + 1;
+        if i > 3 {
+            continue = false;
+        }
+    }
+    print(i); // Expected: 4
+
+    return 0;
+}

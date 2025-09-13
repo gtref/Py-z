@@ -1,0 +1,10 @@
+fn main() -> int {
+    let x: float = 10.5;
+    let y: int = 20;
+    let z: float = x + 2.0;
+
+    print(z);
+    print(y);
+
+    return 0;
+}

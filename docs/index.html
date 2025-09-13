@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Language Documentation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Super Language</h1>
+        <p>A new, fast, and expressive programming language.</p>
+        <nav>
+            <a href="#syntax">Syntax</a>
+            <a href="slang.html">Slang Mode</a>
+            <a href="#download">Download</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="about">
+            <h2>About Super</h2>
+            <p>Super is an educational, statically-typed, compiled programming language that transpiles to C. Its syntax is inspired by modern languages like Rust and Go.</p>
+        </section>
+
+        <section id="syntax">
+            <h2>Language Syntax</h2>
+            <p>This section provides a brief overview of the core syntax.</p>
+
+            <h3>Types</h3>
+            <p>Super has five primitive types: <code>int</code>, <code>string</code>, <code>bool</code>, user-defined <code>struct</code>s, and <code>array</code>s.</p>
+
+            <h3>Variable Declaration</h3>
+            <pre><code>let x: int = 10;
+let message: string = "Hello!";</code></pre>
+
+            <h3>Function Definition</h3>
+            <pre><code>fn add(a: int, b: int) -> int {
+    return a + b;
+}</code></pre>
+
+            <h3>Structs</h3>
+            <pre><code>struct Point {
+    x: int;
+    y: int;
+}
+let p: Point = Point{x: 10, y: 20};</code></pre>
+        </section>
+
+        <section id="download">
+            <h2>Download</h2>
+            <p>You can download a ZIP file of the entire project repository.</p>
+            <a href="#" class="button">Download .ZIP</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Super Language Project</p>
+    </footer>
+</body>
+</html>

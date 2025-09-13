@@ -1,57 +1,23 @@
 #include "lexer.h"
 #include <string.h>
 #include <ctype.h>
-#include <stdio.h> // For NULL
+#include <stdio.h>
 
 // --- Lexer Implementation ---
-typedef struct {
-    const char *start;
-    const char *current;
-    int line;
-} Lexer;
-
+typedef struct { const char *start; const char *current; int line; } Lexer;
 static Lexer lexer;
-static int g_slang_mode = 0;
+int g_slang_mode = 0;
 
 void set_slang_mode(int enabled) {
     g_slang_mode = enabled;
 }
 
-void init_lexer(const char *source) {
-    lexer.start = source;
-    lexer.current = source;
-    lexer.line = 1;
-}
-
+void init_lexer(const char *source) { lexer.start = source; lexer.current = source; lexer.line = 1; }
 static int is_at_end() { return *lexer.current == '\0'; }
 static char advance() { lexer.current++; return lexer.current[-1]; }
 static char peek() { return *lexer.current; }
 
-static void skip_whitespace() {
-    for (;;) {
-        char c = peek();
-        switch (c) {
-            case ' ': case '\r': case '\t': advance(); break;
-            case '\n': lexer.line++; advance(); break;
-            case '/':
-                if (lexer.current[1] == '/') {
-                    while (peek() != '\n' && !is_at_end()) advance();
-                } else if (lexer.current[1] == '*') {
-                    advance(); advance();
-                    while (!(peek() == '*' && lexer.current[1] == '/') && !is_at_end()) {
-                        if (peek() == '\n') lexer.line++;
-                        advance();
-                    }
-                    if (!is_at_end()) advance();
-                    if (!is_at_end()) advance();
-                } else {
-                    return;
-                }
-                break;
-            default: return;
-        }
-    }
-}
+static void skip_whitespace() { for (;;) { char c = peek(); switch (c) { case ' ': case '\r': case '\t': advance(); break; case '\n': lexer.line++; advance(); break; case '/': if (lexer.current[1] == '/') { while (peek() != '\n' && !is_at_end()) advance(); } else if (lexer.current[1] == '*') { advance(); advance(); while (!(peek() == '*' && lexer.current[1] == '/') && !is_at_end()) { if (peek() == '\n') lexer.line++; advance(); } if (!is_at_end()) advance(); if (!is_at_end()) advance(); } else { return; } break; default: return; } } }
 static Token make_token(TokenType type) { Token token; token.type = type; token.start = lexer.start; token.length = (int)(lexer.current - lexer.start); token.line = lexer.line; return token; }
 static Token error_token(const char* message) { Token token; token.type = TOKEN_UNKNOWN; token.start = message; token.length = (int)strlen(message); token.line = lexer.line; return token; }
 static TokenType check_keyword(int start, int length, const char* rest, TokenType type) { if (lexer.current - lexer.start == start + length && memcmp(lexer.start + start, rest, length) == 0) { return type; } return TOKEN_IDENTIFIER; }
@@ -62,7 +28,7 @@ static TokenType identifier_type() {
             case 'b': return check_keyword(1, 2, "et", TOKEN_LET);
             case 'c': return check_keyword(1, 2, "ap", TOKEN_FALSE);
             case 'f': return check_keyword(1, 2, "ax", TOKEN_TRUE);
-            case 'o': return check_keyword(1, 8, "n-repeat", TOKEN_WHILE);
+            case 'o': return check_keyword(1, 8, "nrepeat", TOKEN_WHILE);
             case 's':
                 if (lexer.current - lexer.start > 1) {
                     switch (lexer.start[1]) {
@@ -72,7 +38,7 @@ static TokenType identifier_type() {
                 }
                 break;
             case 'n': return check_keyword(1, 2, "ah", TOKEN_ELSE);
-            case 'v': return check_keyword(1, 9, "ibe_check", TOKEN_FN);
+            case 'v': return check_keyword(1, 8, "ibecheck", TOKEN_FN);
             case 'y': return check_keyword(1, 3, "eet", TOKEN_RETURN);
         }
     } else {
@@ -128,25 +94,18 @@ Token get_next_token() {
     if (isdigit(c)) return number();
     if (c == '"') return string();
     switch (c) {
-        case '(': return make_token(TOKEN_LPAREN);
-        case ')': return make_token(TOKEN_RPAREN);
-        case '{': return make_token(TOKEN_LBRACE);
-        case '}': return make_token(TOKEN_RBRACE);
-        case '[': return make_token(TOKEN_LSQUARE);
-        case ']': return make_token(TOKEN_RSQUARE);
-        case ';': return make_token(TOKEN_SEMICOLON);
-        case ':': return make_token(TOKEN_COLON);
-        case ',': return make_token(TOKEN_COMMA);
-        case '.': return make_token(TOKEN_DOT);
-        case '+': return make_token(TOKEN_PLUS);
-        case '*': return make_token(TOKEN_STAR);
+        case '(': return make_token(TOKEN_LPAREN); case ')': return make_token(TOKEN_RPAREN);
+        case '{': return make_token(TOKEN_LBRACE); case '}': return make_token(TOKEN_RBRACE);
+        case '[': return make_token(TOKEN_LSQUARE); case ']': return make_token(TOKEN_RSQUARE);
+        case ';': return make_token(TOKEN_SEMICOLON); case ':': return make_token(TOKEN_COLON);
+        case ',': return make_token(TOKEN_COMMA); case '.': return make_token(TOKEN_DOT);
+        case '+': return make_token(TOKEN_PLUS); case '*': return make_token(TOKEN_STAR);
         case '/': return make_token(TOKEN_SLASH);
-        case '!': return make_token(peek() == '=' ? TOKEN_BANG_EQ : TOKEN_BANG);
-        case '=': return make_token(peek() == '=' ? TOKEN_EQ_EQ : TOKEN_EQ);
-        case '<': return make_token(TOKEN_LT);
-        case '>': return make_token(TOKEN_GT);
-        case '&': return make_token(peek() == '&' ? TOKEN_AND : TOKEN_AMPERSAND);
-        case '|': return make_token(peek() == '|' ? TOKEN_OR : TOKEN_PIPE);
+        case '!': if (peek() == '=') { advance(); return make_token(TOKEN_BANG_EQ); } return make_token(TOKEN_BANG);
+        case '=': if (peek() == '=') { advance(); return make_token(TOKEN_EQ_EQ); } return make_token(TOKEN_EQ);
+        case '<': return make_token(TOKEN_LT); case '>': return make_token(TOKEN_GT);
+        case '&': if (peek() == '&') { advance(); return make_token(TOKEN_AND); } return make_token(TOKEN_AMPERSAND);
+        case '|': if (peek() == '|') { advance(); return make_token(TOKEN_OR); } return make_token(TOKEN_PIPE);
         case '-': if (peek() == '>') { advance(); return make_token(TOKEN_ARROW); } return make_token(TOKEN_MINUS);
     }
     return error_token("Unexpected character.");

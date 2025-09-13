@@ -1,0 +1,7 @@
+fn main() -> int {
+    let my_array: [int] = [10, 20, 30];
+    print(my_array[0]);
+    print(my_array[1]);
+    print(my_array[2]);
+    return 0;
+}
