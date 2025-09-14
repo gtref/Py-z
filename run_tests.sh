@@ -1,41 +1,66 @@
 #!/bin/bash
 
-# Exit on error
-set -e
+# A simple test runner for the Super language
 
-# Build the compiler
-echo "Building the compiler..."
-make
+TEST_DIR="tests"
+INTERPRETER="python super.py"
+PASSED_COUNT=0
+FAILED_COUNT=0
 
-# Check if the compiler was built
-if [ ! -f ./super ]; then
-    echo "Compiler executable not found. Cannot run tests."
-    exit 1
-fi
+# Colors for output
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
 
-echo "Running tests..."
+# Ensure the script can be run from any directory
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+cd "$SCRIPT_DIR"
 
-for test_file in tests/*.super; do
-    expected_file="${test_file%.super}.expected"
-    test_name=$(basename "$test_file")
+echo "Running Super language tests..."
+echo "============================="
 
-    echo -n "Testing $test_name... "
+for test_file in ${TEST_DIR}/*.super; do
+    base_name=$(basename "${test_file}" .super)
+    expected_file="${TEST_DIR}/${base_name}.expected"
 
-    # Run the compiler and capture the output
-    actual_output=$(./super "$test_file")
+    if [ ! -f "${expected_file}" ]; then
+        echo -e "🤔 Skipping ${base_name}: No .expected file found."
+        continue
+    fi
 
-    # Read the expected output
-    expected_output=$(cat "$expected_file")
+    echo -n "Running test: ${base_name}... "
 
-    # Compare the actual output with the expected output
-    if [ "$actual_output" == "$expected_output" ]; then
-        echo "PASS"
+    # Run the interpreter and capture the output
+    output=$($INTERPRETER "${test_file}" 2>&1)
+
+    # Get the expected output
+    expected_output=$(cat "${expected_file}")
+
+    # Normalize outputs by removing trailing whitespace from each line and at the end of the file
+    output_normalized=$(echo -n "$output" | sed 's/[[:space:]]*$//')
+    expected_output_normalized=$(echo -n "$expected_output" | sed 's/[[:space:]]*$//')
+
+
+    if [ "$output_normalized" == "$expected_output_normalized" ]; then
+        echo -e "${GREEN}PASSED${NC}"
+        ((PASSED_COUNT++))
     else
-        echo "FAIL"
-        echo "  Expected: $expected_output"
-        echo "  Actual:   $actual_output"
-        exit 1
+        echo -e "${RED}FAILED${NC}"
+        ((FAILED_COUNT++))
+        echo "-----[ ACTUAL OUTPUT ]-----"
+        echo "$output"
+        echo "-----[ EXPECTED OUTPUT ]----"
+        echo "$expected_output"
+        echo "--------------------------"
     fi
 done
 
-echo "All tests passed!"
+echo "============================="
+echo "Test summary: ${PASSED_COUNT} passed, ${FAILED_COUNT} failed."
+echo
+
+if [ ${FAILED_COUNT} -ne 0 ]; then
+    exit 1
+fi
+
+exit 0

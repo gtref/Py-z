@@ -1,0 +1,33 @@
+// Test file for functions
+
+// Simple function
+fn say_hello(name) {
+  print("Hello, " + name + "!");
+}
+
+say_hello("Super user");
+
+
+// Function with a return value
+fn add(a, b) {
+  return a + b;
+}
+
+let sum = add(10, 20);
+print("10 + 20 =");
+print(sum);
+
+
+// Recursive function (Fibonacci)
+fn fib(n) {
+  if (n < 2) {
+    return n;
+  }
+  return fib(n - 2) + fib(n - 1);
+}
+
+let result = fib(10);
+print("Fibonacci(10) =");
+print(result); // Should be 55
+
+print("Function test complete.");

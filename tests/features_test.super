@@ -1,0 +1,19 @@
+// Test file for advanced features
+
+let a = 10;
+let b = 20;
+
+if (a < b) {
+  print("a is less than b, which is correct.");
+} else {
+  print("a is not less than b, something is wrong.");
+}
+
+let counter = 0;
+while (counter < 3) {
+  print("Loop iteration:");
+  print(counter);
+  counter = counter + 1;
+}
+
+print("Test complete.");
