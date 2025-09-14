@@ -56,7 +56,7 @@ def run_prompt():
 
     while True:
         try:
-            line = input("> ")
+            line = input("SUPER/> ")
             if not line:
                 continue
             if line.strip().lower() in ['exit', 'exit()']:
